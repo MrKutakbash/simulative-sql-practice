@@ -12,3 +12,5 @@
 ### Визуализация дашборда:
 ![Мой Дашборд в Metabase](dashboard1.jpg)
 ![Мой Дашборд в Metabase](dashboard2.jpg)
+![Распределение языков](Distribution_of_languages.jpg)
+![Количество активных пользователей](Number_of_active_users.jpg)
