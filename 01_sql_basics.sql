@@ -98,3 +98,58 @@ select id_cl, email
 from clients
 where email like '%a%' and '%@iitp.ru' and '%@mail.ru'
 order by id_cl 
+
+-- =============================
+-- ==== БИЗНЕСОВАЯ ПРАКТИКА ====
+-- =============================
+
+-- Задача 1: SQL. Практика. Почты с некоторых доменов
+select email
+from Users u 
+where email similar to '%(gmail.com|.ru)'
+
+-- Задача 2: SQL. Практика. Классификация пользователей
+select email, score,
+	case 
+	when score < 20 then 'D'
+        when score < 100 then 'C'
+        when score < 500 then 'B'
+        else 'A'
+	end "class"
+from users u 
+
+-- Задача 3: SQL. Практика. Регистрации в заданный период
+select *
+from users u
+where date_joined::date between '2022-04-01' and '2022-04-10'
+
+-- Задача 4: SQL. Практика. Дни с момента регистрации
+select email, date_joined, extract(days from now() - date_joined) as diff
+from users 
+
+-- Задача 5: SQL. Практика. Отфильтрованные по компании юзеры
+select username, to_char(date_joined, 'dd.mm.yyyy') 
+from users 
+where coalesce(company_id, -1) != 2
+
+-- Задача 6: SQL. Практика. Коэффициент сложности задачи
+select id, round(complexity*1.0  / nullif(bonus, 0), 2) as coef
+from problem
+
+-- Задача 7: SQL. Практика. Совпадение почты и логина
+select
+    username, email,
+    left(email, position('@' in email) - 1) as email_trunc,
+    lower(username) = lower(left(email, position('@' in email) - 1)) as isEqual
+from users u
+
+-- Задача 8: SQL. Практика. Имя клиента для рассылки
+SELECT
+    email,
+    CASE
+        WHEN first_name IS NOT NULL AND last_name IS NOT NULL THEN first_name || ' ' || last_name
+        WHEN first_name IS NOT NULL THEN first_name
+        WHEN last_name IS NOT NULL THEN last_name
+        ELSE 'Дорогой друг'
+    END AS full_name
+FROM users
